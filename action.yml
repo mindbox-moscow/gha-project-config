@@ -1,0 +1,21 @@
+name: 'Get project application config'
+description: 'Returns project application configuration'
+inputs:
+  login:
+    description: 'Nexus login'
+    required: true
+  password:
+    description: 'Nexus password'
+    required: true
+  project:
+    description: 'Project system name'
+    required: true
+  environment:
+    description: 'Environment'
+    required: true
+outputs:
+  project-config:
+    description: 'Project application configuration'
+runs:
+  using: 'node12'
+  main: 'index.js'
