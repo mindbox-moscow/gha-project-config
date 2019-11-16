@@ -10,7 +10,7 @@ jobs:
           fetch-depth: 1
       - run: npm install
       - run: npm run build
-      - uses: ./github/actions/project-config
+      - uses: ./project-config
         with:
           login: Login
           password: Password
