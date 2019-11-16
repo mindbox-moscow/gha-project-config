@@ -10,7 +10,7 @@ jobs:
           fetch-depth: 1
       - run: npm install
       - run: npm run build
-      - uses: mindbox-moscow/gha-project-config
+      - uses: ././
         with:
           login: Login
           password: Password
