@@ -1,5 +1,5 @@
-name: 'Get project application config'
-description: 'Returns project application configuration'
+name: 'Download project application configurations files'
+description: 'Downloading project application configurations files for specified environments to the specified path on the file system'
 inputs:
   login:
     description: 'Nexus login'
@@ -10,12 +10,12 @@ inputs:
   project:
     description: 'Project system name'
     required: true
-  environment:
-    description: 'Environment'
+  environments:
+    description: 'Environments for which configurations files should be downloaded, comma separated'
     required: true
-outputs:
-  project-config:
-    description: 'Project application configuration'
+  configs-path:
+    description: 'Path to application configuration files location'
+    required: true
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: './index.js'
