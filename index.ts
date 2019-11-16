@@ -48,8 +48,3 @@ for (const environment of splittedEnvironments) {
             throw new Error(errorMessage);
     }});   
 }
-
-
-
-
-

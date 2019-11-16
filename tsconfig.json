@@ -10,7 +10,8 @@
       "noUnusedParameters": true,
       "noImplicitAny": true,
       "removeComments": false,
-      "preserveConstEnums": true
+      "preserveConstEnums": true,
+      "sourceMap": true
     },
     "include": [".github/actions/**/*.ts", "**/*.ts"],
     "exclude": ["node_modules"]

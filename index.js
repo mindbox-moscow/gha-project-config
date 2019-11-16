@@ -50,3 +50,4 @@ for (const environment of splittedEnvironments) {
         }
     });
 }
+//# sourceMappingURL=index.js.map
