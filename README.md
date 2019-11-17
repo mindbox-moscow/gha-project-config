@@ -2,7 +2,7 @@
 
 GitHub Action for downloading the project application configuration files from Nexus.
 
-Configuration files are placed in the specified by parameter 'configs-path' folder.
+Configuration files are placed at ${GITHUB_WORKSPACE}/{configs-path} folder.
 
 File naming convention is "application.config.{environment}".
 
