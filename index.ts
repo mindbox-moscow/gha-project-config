@@ -31,7 +31,7 @@ for (const environment of splittedEnvironments) {
         }
     };
 
-    core.debug(`Requesting '${options.url}'`);
+    core.info(`Requesting '${options.url}'`);
 
     request.get(options, (error, response, body) => {
         if (response && response.statusCode == 200) {
@@ -40,7 +40,7 @@ for (const environment of splittedEnvironments) {
             
             fs.writeFileSync(filePath, body);
 
-            core.debug(`Project configuration '${filePath}' saved`);
+            core.info(`Project configuration '${filePath}' saved`);
         }
         else {
             const errorMessage = `Error while getting '${options.url}': '${error}', response code: ${response && response.statusCode}`;
