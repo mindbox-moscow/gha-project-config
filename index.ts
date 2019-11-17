@@ -4,6 +4,8 @@ import * as str from 'underscore.string';
 import * as fs from 'fs';
 import * as path from 'path';
 
+const GITHUB_WORKSPACE = process.env.GITHUB_WORKSPACE;
+
 const getValue = (path: string) : string => {
     const value = core.getInput(path);
     if (str.isBlank(value)) {
@@ -36,7 +38,7 @@ for (const environment of splittedEnvironments) {
     request.get(options, (error, response, body) => {
         if (response && response.statusCode == 200) {
             const fileName = `application.config.${str.decapitalize(environment)}`;
-            const filePath = path.join(configsPath, fileName);
+            const filePath = path.join(`${GITHUB_WORKSPACE}`, configsPath, fileName);
             
             fs.writeFileSync(filePath, body);
 

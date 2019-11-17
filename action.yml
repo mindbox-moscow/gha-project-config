@@ -14,7 +14,7 @@ inputs:
     description: 'Environments for which configurations files should be downloaded, comma separated'
     required: true
   configs-path:
-    description: 'Path to application configuration files location'
+    description: 'Relative path to application configuration files location'
     required: true
 runs:
   using: 'node12'

@@ -12,6 +12,7 @@ const request = __importStar(require("request"));
 const str = __importStar(require("underscore.string"));
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
+const GITHUB_WORKSPACE = process.env.GITHUB_WORKSPACE;
 const getValue = (path) => {
     const value = core.getInput(path);
     if (str.isBlank(value)) {
@@ -39,7 +40,7 @@ for (const environment of splittedEnvironments) {
     request.get(options, (error, response, body) => {
         if (response && response.statusCode == 200) {
             const fileName = `application.config.${str.decapitalize(environment)}`;
-            const filePath = path.join(configsPath, fileName);
+            const filePath = path.join(`${GITHUB_WORKSPACE}`, configsPath, fileName);
             fs.writeFileSync(filePath, body);
             core.info(`Project configuration '${filePath}' saved`);
         }
