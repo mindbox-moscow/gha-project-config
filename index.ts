@@ -59,7 +59,7 @@ const instances = core.getInput('instances');
 const splittedEnvironments = environments.split(',');
 
 if (!str.isBlank(instances)) {
-    for (const instance in instances.split(',')) {
+    for (const instance of instances.split(',')) {
         for (const environment of splittedEnvironments) {
             const options = {
                 url: `${baseServiceUrl}&environment=${environment}&instance=${instance}`,
