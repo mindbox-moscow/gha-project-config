@@ -62,7 +62,7 @@ if (!str.isBlank(instances)) {
     for (const instance of instances.split(',')) {
         for (const environment of splittedEnvironments) {
             const options = {
-                url: `${baseServiceUrl}&environment=${environment}&instance=${instance}`,
+                url: `${baseServiceUrl}&environment=${environment}&instanceName=${instance}`,
                 auth: auth
             };
             const fileName = `application.config.${str.decapitalize(environment)}-${str.decapitalize(instance)}`;
