@@ -6,7 +6,15 @@ import * as path from 'path';
 
 const GITHUB_WORKSPACE = process.env.GITHUB_WORKSPACE;
 
-const getValue = (path: string) : string => {
+interface RequestOptions {
+    url: string;
+    auth: {
+        username: string;
+        password: string;
+    }
+}
+
+const getValue = (path: string): string => {
     const value = core.getInput(path);
     if (str.isBlank(value)) {
         const errorMessage = `Parameter '${path}' is required.`;
@@ -20,33 +28,57 @@ const getValue = (path: string) : string => {
 const login = getValue('login');
 const password = getValue('password');
 const project = getValue('project');
-const environments = getValue('environments');
-const configsPath = getValue('configs-path');
 
-const splittedEnvironments = environments.split(',');
-for (const environment of splittedEnvironments) {
-    const options = {
-        url: `https://nexus-services.directcrm.ru/projects/configuration?projectSystemName=${project}&environment=${environment}`,
-        auth: {
-            username: login,
-            password: password
-        }
-    };
+const baseServiceUrl = `https://nexus-services.directcrm.ru/projects/configuration?projectSystemName=${project}`
+const auth = {
+    username: login,
+    password: password
+}
 
+const downloadConfig = (options: RequestOptions, filePath: string): void => {
     core.info(`Requesting '${options.url}'`);
 
     request.get(options, (error, response, body) => {
         if (response && response.statusCode == 200) {
-            const fileName = `application.config.${str.decapitalize(environment)}`;
-            const filePath = path.join(`${GITHUB_WORKSPACE}`, configsPath, fileName);
-            
-            fs.writeFileSync(filePath, body);
 
+            fs.writeFileSync(filePath, body);
             core.info(`Project configuration '${filePath}' saved`);
         }
         else {
             const errorMessage = `Error while getting '${options.url}': '${error}', response code: ${response && response.statusCode}`;
             core.setFailed(errorMessage);
             throw new Error(errorMessage);
-    }});   
+        }
+    });
+}
+
+
+const environments = getValue('environments');
+const configsPath = getValue('configs-path');
+const instances = core.getInput('instances');
+const splittedEnvironments = environments.split(',');
+
+if (!str.isBlank(instances)) {
+    for (const instance in instances.split(',')) {
+        for (const environment of splittedEnvironments) {
+            const options = {
+                url: `${baseServiceUrl}&environment=${environment}&instance=${instance}`,
+                auth: auth
+            };
+            const fileName = `application.config.${str.decapitalize(environment)}-${str.decapitalize(instance)}`;
+            const filePath = path.join(`${GITHUB_WORKSPACE}`, configsPath, fileName);
+            downloadConfig(options, filePath);
+        }
+    }
+}
+else {
+    for (const environment of splittedEnvironments) {
+        const options = {
+            url: `${baseServiceUrl}&environment=${environment}`,
+            auth: auth
+        };
+        const fileName = `application.config.${str.decapitalize(environment)}`;
+        const filePath = path.join(`${GITHUB_WORKSPACE}`, configsPath, fileName);
+        downloadConfig(options, filePath);
+    }
 }
